@@ -484,7 +484,7 @@ PAGE = r"""<!doctype html>
     --blue:#3CBCFC; --cyan:#00E8D8; --green:#4BE04B;
     --lime:#B8F818; --yellow:#FCD800; --orange:#FC9838; --red:#F83800;
     --font:ui-monospace,"SF Mono",Menlo,"Courier New",monospace;
-    --r:0; --r-s:0; --scan:1; --tsh:3px 3px 0 var(--shade);
+    --r:0; --r-s:0; --r-p:0; --scan:1; --tsh:3px 3px 0 var(--shade);
     --fr:0 -4px 0 var(--line),0 4px 0 var(--line),-4px 0 0 var(--line),4px 0 0 var(--line);
     --fr-s:0 -3px 0 var(--line),0 3px 0 var(--line),-3px 0 0 var(--line),3px 0 0 var(--line);
     --fr-x:0 -2px 0 var(--line),0 2px 0 var(--line),-2px 0 0 var(--line),2px 0 0 var(--line);
@@ -499,7 +499,7 @@ PAGE = r"""<!doctype html>
     --blue:#17C9E8; --cyan:#17C9E8; --green:#8BE04A;
     --lime:#8BE04A; --yellow:#FFC93C; --orange:#FF7A2F; --red:#FF2D78;
     --font:ui-rounded,"SF Pro Rounded","Hiragino Maru Gothic ProN","Avenir Next",sans-serif;
-    --r:16px; --r-s:999px; --scan:0; --tsh:none;
+    --r:16px; --r-s:12px; --r-p:999px; --scan:0; --tsh:none;
     --fr:0 0 0 2px var(--line),4px 4px 0 var(--line);
     --fr-s:0 0 0 2px var(--line),2px 2px 0 var(--line);
     --fr-x:0 0 0 2px var(--line);
@@ -514,7 +514,7 @@ PAGE = r"""<!doctype html>
     --blue:#2D7FC8; --cyan:#1AA79A; --green:#2E9E5B;
     --lime:#7FB330; --yellow:#D9A21B; --orange:#DE6B2A; --red:#C8342E;
     --font:ui-sans-serif,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;
-    --r:10px; --r-s:8px; --scan:0; --tsh:none;
+    --r:10px; --r-s:8px; --r-p:8px; --scan:0; --tsh:none;
     --fr:0 0 0 1px var(--line),0 2px 8px rgba(27,35,48,.07);
     --fr-s:0 0 0 1px var(--line);
     --fr-x:0 0 0 1px var(--line);
@@ -529,7 +529,7 @@ PAGE = r"""<!doctype html>
     --blue:#4F9BF0; --cyan:#28C8B4; --green:#4CC66E;
     --lime:#9BD03C; --yellow:#E8C34A; --orange:#E8853C; --red:#E85D5D;
     --font:ui-sans-serif,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;
-    --r:10px; --r-s:8px; --scan:0; --tsh:none;
+    --r:10px; --r-s:8px; --r-p:8px; --scan:0; --tsh:none;
     --fr:0 0 0 1px var(--line);
     --fr-s:0 0 0 1px var(--line);
     --fr-x:0 0 0 1px var(--line);
@@ -571,7 +571,7 @@ PAGE = r"""<!doctype html>
   /* ---- 部品 ---- */
   button,select,input{
     font:inherit;font-weight:700;color:var(--text);background:var(--panel2);
-    border:none;border-radius:var(--r-s);padding:7px 13px;letter-spacing:.04em;
+    border:none;border-radius:var(--r-p);padding:7px 13px;letter-spacing:.04em;
     box-shadow:var(--fr-s);
     margin:3px;
   }
@@ -589,7 +589,7 @@ PAGE = r"""<!doctype html>
   .spacer{flex:1}
   .hint{color:var(--dim);font-size:11.5px}
   .eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin:0 0 10px;font-weight:700}
-  .chip{display:inline-block;padding:2px 9px;border-radius:var(--r-s);font-size:11px;font-weight:700;background:var(--panel2);
+  .chip{display:inline-block;padding:2px 9px;border-radius:var(--r-p);font-size:11px;font-weight:700;background:var(--panel2);
     box-shadow:var(--fr-x);margin:2px 3px}
   .verdict{font-size:14px;line-height:1.9;margin:0}
   .big{font-size:26px;font-weight:700;text-shadow:var(--tsh)}
@@ -613,7 +613,7 @@ PAGE = r"""<!doctype html>
   /* ---- タブ ---- */
   .tabs{display:flex;gap:4px;margin:16px 0 18px}
   .tab{
-    background:var(--panel2);color:var(--dim);cursor:pointer;font:inherit;font-weight:700;border-radius:var(--r-s);
+    background:var(--panel2);color:var(--dim);cursor:pointer;font:inherit;font-weight:700;border-radius:var(--r-p);
     padding:9px 22px;border:none;letter-spacing:.16em;font-size:11px;margin:3px;
     box-shadow:var(--fr-d);
     transition:transform .1s var(--ease),background .12s,color .12s;
@@ -672,7 +672,7 @@ PAGE = r"""<!doctype html>
     background:linear-gradient(90deg,#3CBCFC,#00E8D8,#4BE04B,#FCD800,#FC9838,#F83800)}
 
   /* ---- 内訳バー ---- */
-  .split{display:flex;height:22px;margin-top:6px;border-radius:var(--r-s);
+  .split{display:flex;height:22px;margin-top:6px;border-radius:var(--r-p);
     box-shadow:var(--fr-s)}
   .split div{transition:flex-grow .4s var(--ease)}
   .legend{display:flex;flex-wrap:wrap;gap:2px;margin-top:12px}
@@ -751,7 +751,7 @@ PAGE = r"""<!doctype html>
   .toolrow{background:var(--panel2);padding:8px 12px;margin:0 3px 10px;font-size:12px;border-radius:var(--r-s);
     box-shadow:var(--fr-s)}
   .toolrow code{font-size:11px;color:var(--cyan);word-break:break-all}
-  .mixbar{display:flex;height:20px;margin-top:8px;border-radius:var(--r-s);
+  .mixbar{display:flex;height:20px;margin-top:8px;border-radius:var(--r-p);
     box-shadow:var(--fr-s)}
 
   /* ---- チャート ---- */
