@@ -577,7 +577,7 @@ PAGE = r"""<!doctype html>
   }
   select{padding-right:8px}
   input[type=search]{min-width:196px}
-  input[type=number]{width:64px}
+  input[type=number]{width:82px;text-align:center}
   button{cursor:pointer;transition:transform .1s var(--ease),background .1s}
   button:hover{background:var(--blue);color:var(--shade)}
   button:active{transform:translateY(3px)}
@@ -783,8 +783,8 @@ PAGE = r"""<!doctype html>
   <svg id="logo"></svg>
   <p class="sub">SESSION &gt; TURN &gt; CAUSE — そのまま掘っていける。</p>
   <div class="bar" style="margin-top:14px">
-    <label class="hint"><input type="checkbox" id="auto" checked style="width:auto;box-shadow:none;margin-right:4px"> 自動更新</label>
-    <label class="hint">警告しきい値 <input type="number" id="thresh" value="200" min="10" step="10"> k</label>
+    <label class="hint" style="margin-right:14px"><input type="checkbox" id="auto" checked style="width:auto;box-shadow:none;margin-right:5px"> 自動更新</label>
+    <label class="hint">警告しきい値&nbsp; <input type="number" id="thresh" value="200" min="10" step="10"> &nbsp;k</label>
     <span class="spacer"></span>
     <span class="hint" style="margin-right:2px">THEME</span>
     <button class="tab" data-theme-btn="8bit">8BIT</button>
