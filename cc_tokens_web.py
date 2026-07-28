@@ -652,7 +652,7 @@ PAGE = r"""<!doctype html>
   .calhead span:last-child{color:var(--blue)}
   .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
   .day{
-    min-height:52px;background:var(--panel2);border-radius:var(--r-s);padding:5px 7px;text-align:left;font:inherit;
+    min-height:64px;background:var(--panel2);border-radius:var(--r-s);padding:6px 9px;text-align:left;font:inherit;display:block;
     color:var(--text);cursor:pointer;position:relative;margin:0;border:none;
     box-shadow:var(--fr-s);
     transition:transform .1s var(--ease);
@@ -661,9 +661,9 @@ PAGE = r"""<!doctype html>
   .day.void{background:none;box-shadow:none;pointer-events:none}
   .day.none{background:var(--panel2);opacity:.35;cursor:default;
     box-shadow:var(--fr-d)}
-  .day .d{font-size:11px;font-weight:700;line-height:1.1;color:var(--shade)}
+  .day .d{position:absolute;top:6px;left:9px;font-size:11px;font-weight:700;line-height:1;color:var(--shade);opacity:.72}
   .day.none .d{color:var(--dim)}
-  .day .v{position:absolute;left:7px;bottom:4px;font-size:10px;font-weight:700;color:var(--shade)}
+  .day .v{position:absolute;left:9px;bottom:6px;font-size:11.5px;font-weight:800;color:var(--shade);letter-spacing:-.02em}
   .day.on{box-shadow:var(--fr-y);
     transform:translateY(-3px)}
   .day.today .d::after{content:'';display:inline-block;width:5px;height:5px;background:var(--red);
