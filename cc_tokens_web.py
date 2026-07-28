@@ -240,7 +240,7 @@ def label_of(t: dict) -> str:
 # ---------------------------------------------------------------- shaping
 
 
-def downsample(values: list[int], target: int = 64) -> list[int]:
+def downsample(values: list[int], target: int = 36) -> list[int]:
     if len(values) <= target:
         return values
     step = len(values) / target
@@ -1192,17 +1192,20 @@ function renderCal(){
   $('cal').querySelectorAll('[data-day]').forEach(b=>b.onclick=e=>pickDay(b.dataset.day,e.shiftKey));
 }
 function pickDay(k,extend){
+  SHOWN=PAGE_SIZE;
   if(extend&&SEL.from){ SEL={from:k<SEL.from?k:SEL.from, to:k>SEL.from?k:SEL.from}; }
   else if(SEL.from===k&&SEL.to===k){ SEL={from:null,to:null}; }
   else { SEL={from:k,to:k}; }
   renderCal(); renderList(true); noteRange();
 }
 function setRange(days){
+  SHOWN=PAGE_SIZE;
   const to=new Date(), from=new Date(); from.setDate(to.getDate()-(days-1));
   SEL={from:iso(from), to:iso(to)}; CALM={y:to.getFullYear(), m:to.getMonth()};
   renderCal(); renderList(true); noteRange();
 }
-function clearRange(){ SEL={from:null,to:null}; renderCal(); renderList(true); noteRange(); }
+function clearRange(){
+  SHOWN=PAGE_SIZE; SEL={from:null,to:null}; renderCal(); renderList(true); noteRange(); }
 function noteRange(){
   const n=$('cal-note');
   if(!SEL.from){ n.textContent='日付を押すと絞り込み / Shift+クリックで期間'; return; }
@@ -1276,13 +1279,18 @@ function visible(){
     (!q||s.sid.toLowerCase().includes(q)||s.project.toLowerCase().includes(q)));
 }
 
+const PAGE_SIZE=60;
+let SHOWN=PAGE_SIZE;
+
 function renderList(animate){
-  const key=$('sort').value, rows=visible();
-  rows.sort((a,b)=>{ const la=isLive(a),lb=isLive(b); if(la!==lb) return lb-la;
+  const key=$('sort').value, all=visible();
+  all.sort((a,b)=>{ const la=isLive(a),lb=isLive(b); if(la!==lb) return lb-la;
     return key==='end'?b.end.localeCompare(a.end):b[key]-a[key]; });
-  $('count').textContent=`${rows.length} セッション`;
+  // 全件をDOMに載せるとセッション数が多いとき描画が止まるので、上位から順に出す
+  const rows=all.slice(0,SHOWN), rest=all.length-rows.length;
+  $('count').textContent=rest>0 ? `${rows.length} / ${all.length} セッション` : `${all.length} セッション`;
   const el=$('ledger'), y=window.scrollY;
-  if(!rows.length){ el.innerHTML='<div class="win empty">NO DATA<br><button class="ghost" style="margin-top:12px" onclick="clearRange()">期間の絞り込みを外す</button></div>'; return; }
+  if(!all.length){ el.innerHTML='<div class="win empty">NO DATA<br><button class="ghost" style="margin-top:12px" onclick="clearRange()">期間の絞り込みを外す</button></div>'; return; }
   el.className='ledger'+(animate&&!calm?' anim-rows':'');
   el.innerHTML=rows.map((s,i)=>{
     const live=isLive(s), shown=live?s.last:s.peak;
@@ -1293,13 +1301,17 @@ function renderList(animate){
           ${(s.turns>=40&&s.peak>=300000)?'<span class="chip" style="background:var(--red)">要分割</span>':''}</div>
         <div class="meta">${esc(s.sid.slice(0,8))} · ${when(s.start)} - ${when(s.end)}</div>
       </div>
-      <div class="hide-s">${spark(s.spark,32,animate)}</div>
+      <div class="hide-s">${spark(s.spark,32,animate&&i<20)}</div>
       <div class="r"><span class="lab">TURNS</span><span class="num">${s.turns}</span></div>
       <div class="r"><span class="lab">${live?'NOW':'PEAK'}</span>
         <span class="num" style="color:${heat(shown)};font-size:16px">${short(shown)}</span></div>
       <div class="r hide-s"><span class="lab">SHARE</span><span class="num">${s.share.toFixed(1)}%</span></div>
-    </button>`;}).join('');
+    </button>`;}).join('')
+    + (rest>0 ? `<button class="win" id="more" style="cursor:pointer;text-align:center;font-weight:700">
+         もっと見る（残り ${rest} 件）</button>` : '');
   el.querySelectorAll('[data-sid]').forEach(b=>b.onclick=()=>openSession(b.dataset.sid));
+  const more=$('more');
+  if(more) more.onclick=()=>{ SHOWN+=PAGE_SIZE; renderList(false); };
   window.scrollTo(0,y);
 }
 
@@ -1463,7 +1475,7 @@ document.querySelectorAll('[data-tl]').forEach(b=>b.onclick=()=>{
   drawTimeline();
 });
 
-['q','proj','sort'].forEach(id=>$(id).addEventListener('input',()=>{ renderList(false); noteRange(); }));
+['q','proj','sort'].forEach(id=>$(id).addEventListener('input',()=>{ SHOWN=PAGE_SIZE; renderList(false); noteRange(); }));
 $('cal-prev').onclick=()=>{ CALM.m--; if(CALM.m<0){CALM.m=11;CALM.y--;} renderCal(); };
 $('cal-next').onclick=()=>{ CALM.m++; if(CALM.m>11){CALM.m=0;CALM.y++;} renderCal(); };
 $('cal-clear').onclick=clearRange;
